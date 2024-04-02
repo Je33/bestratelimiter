@@ -1,0 +1,69 @@
+name: 'Test'
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  # unit runs the unit tests
+  unit:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - 'macos-latest'
+          - 'ubuntu-latest'
+          - 'windows-latest'
+
+    runs-on: '${{ matrix.os }}'
+
+    steps:
+      - uses: 'actions/checkout@v4'
+
+      - uses: 'actions/setup-go@v5'
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Test
+        run: |-
+          make test
+
+  # build runs go build on the target platforms to ensure the runtime links are
+  # correct.
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        goos:
+          - 'darwin'
+          - 'freebsd'
+          - 'linux'
+          - 'netbsd'
+          - 'openbsd'
+          - 'solaris'
+          - 'windows'
+        goarch:
+          - 'amd64'
+          - 'arm64'
+
+    runs-on: 'ubuntu-latest'
+
+    steps:
+      - uses: 'actions/checkout@v4'
+
+      - uses: 'actions/setup-go@v5'
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+        run: |-
+          go build -a ./...
