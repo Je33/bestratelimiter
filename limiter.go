@@ -95,7 +95,7 @@ func (l *Limiter) Wait(key string) error {
 
 	dur, err := l.Take(key)
 	if err != nil {
-		if errors.Is(err, model.ErrRateLimit) {
+		if !errors.Is(err, model.ErrRateLimit) {
 			return err
 		}
 		if dur > l.config.Timeout {
