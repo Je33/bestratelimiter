@@ -5,20 +5,30 @@ import (
 	"time"
 )
 
+// Config is the Global config struct for bestratelimiter instance
 type Config struct {
 	LimiterConfig
 	StoreConfig
 }
 
+// LimiterConfig is the config struct for Limiter
 type LimiterConfig struct {
-	Period   time.Duration
-	Limit    int
+	// Period for limit
+	Period time.Duration
+	// Limit itself
+	Limit int
+	// Duration between takes
 	Duration time.Duration
-	Timeout  time.Duration
+	// Timeout for waiting of next take
+	Timeout time.Duration
 }
 
+// StoreConfig is the config struct for Store
 type StoreConfig struct {
-	Type          store.Type
-	URI           string
+	// Storage type, support `memory` and `redis`
+	Type store.Type
+	// URI for store
+	URI string
+	// Duration for purge old records
 	PurgeDuration time.Duration
 }

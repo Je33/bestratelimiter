@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+// Work in progress
+// TODO: Add purge
+// TODO: Add tests
+
 type Config struct {
 	URI           string
 	PurgeDuration time.Duration
