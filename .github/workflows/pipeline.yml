@@ -46,7 +46,6 @@ jobs:
           - 'netbsd'
           - 'openbsd'
           - 'solaris'
-          - 'windows'
         goarch:
           - 'amd64'
 
